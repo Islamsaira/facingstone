@@ -1,0 +1,2859 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+<html class="scroll-smooth" lang="ru">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<head>
+
+
+
+
+
+
+    <meta charset="utf-8" />
+
+
+
+
+
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="description"
+        content="В нашем каталоге представлен широкий ассортимент природного облицовочного камня (дагестанский камень) разных размеров и фактур для отделки фасадов.">
+    <meta name="keywords"
+        content="каталог облицовочного камня, виды дагестанского камня, ракушечник, песчаник, доломит, известняк, фасадный камень">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <title>Каталог облицовочного камня: ракушечник, песчаник, доломит | FacingStone</title>
+
+
+
+
+
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+
+
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;family=Playfair+Display:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+
+
+
+
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+
+
+
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+
+
+
+
+
+    <script src="css/tailwind-config.js"></script>
+
+
+
+
+
+
+    <link rel="stylesheet" href="css/common.css">
+
+
+
+
+
+
+    <link rel="stylesheet" href="css/katalog.css">
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- SEO and Open Graph Meta Tags -->
+
+
+
+
+
+
+    <meta name="description"
+        content="Лучший выбор для каменной архитектуры в России. От недр дагестанских гор до вашего поместья." />
+
+
+
+
+
+
+    <meta property="og:title" content="FacingStone - Натуральный Дагестанский Камень" />
+
+
+
+
+
+
+    <meta property="og:description"
+        content="Лучший выбор для каменной архитектуры в России. От недр дагестанских гор до вашего поместья." />
+
+
+
+
+
+
+    <meta property="og:image" content="https://dagkamen.ru/img/gallery_hero.jpg" />
+
+
+
+
+
+
+    <meta property="og:type" content="website" />
+
+
+
+
+
+
+    <!-- AOS Animations CSS -->
+
+
+
+
+
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Firebase Compat Libraries -->
+
+
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+
+
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+
+
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+
+
+    <script src="js/firebase-init.js"></script>
+
+
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body class="bg-background-light text-stone-graphite font-display antialiased">
+
+
+
+
+
+
+    <header class="fixed top-0 w-full z-50 glass-header">
+
+
+
+
+
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+
+
+
+
+
+            <div class="flex justify-between items-center h-20">
+
+
+
+
+
+
+                <div class="flex items-center gap-2">
+
+
+
+
+
+
+                    <a class="text-2xl font-extrabold tracking-tighter text-primary" href="index.html">Facing<span
+                            class="text-stone-graphite">Stone</span></a>
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+                <nav class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-widest">
+
+
+
+
+
+
+                    <a class="hover:text-primary transition-colors" href="katalog.html">Каталог</a>
+
+
+
+
+
+
+                    <a class="hover:text-primary transition-colors" href="portfolio.html">Портфолио</a>
+
+
+
+
+
+
+                    <a class="hover:text-primary transition-colors" href="galerea.html">Галерея от клиентов</a>
+
+
+
+
+
+
+                    <a class="hover:text-primary transition-colors" href="tsena.html">Цены</a>
+
+
+
+
+
+
+                    <a class="hover:text-primary transition-colors" href="contaki.html">Контакты</a>
+
+
+
+
+
+
+                </nav>
+
+
+
+
+
+
+                <div class="flex items-center gap-6">
+
+
+
+
+
+
+                    <div class="hidden lg:flex flex-col items-end">
+
+
+
+
+
+
+                        <a class="text-lg font-bold hover:text-primary transition-colors" href="tel:+79640008688">+7
+
+
+
+
+
+
+                            (964) 000-86-88</a>
+
+
+
+
+
+
+                        <span class="text-[10px] uppercase tracking-tighter text-stone-graphite/60">Работаем ежедневно
+
+
+
+
+
+
+                            9:00 - 21:00</span>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+                    <a href="sms:+79640008688"
+                        class="bg-primary text-white px-6 py-2.5 rounded hover:bg-opacity-90 transition-all font-bold text-sm uppercase tracking-wider hidden sm:inline-block text-center">
+                        Заказать звонок
+                    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+    </header>
+
+
+
+
+
+
+    <main class="pt-32 pb-24">
+
+
+
+
+
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+
+
+
+
+
+            <div class="mb-12">
+
+
+
+
+
+
+                <nav aria-label="Breadcrumb" class="flex text-xs uppercase tracking-widest text-stone-graphite/40 mb-4">
+
+
+
+
+
+
+                    <ol class="flex items-center space-x-2">
+
+
+
+
+
+
+                        <li><a class="hover:text-primary" href="#">Главная</a></li>
+
+
+
+
+
+
+                        <li><span class="mx-2">/</span></li>
+
+
+
+
+
+
+                        <li class="text-stone-graphite">Каталог</li>
+
+
+
+
+
+
+                    </ol>
+
+
+
+
+
+
+                </nav>
+
+
+
+
+
+
+                <h1 class="text-4xl md:text-5xl font-serif font-bold text-stone-graphite">Каталог продукции</h1>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+            <div class="flex flex-col lg:flex-row gap-12">
+
+
+
+
+
+
+                <aside class="w-full lg:w-64 flex-shrink-0">
+
+
+
+
+
+
+                    <div class="sticky top-28 space-y-8">
+
+
+
+
+
+
+                        <div>
+
+
+
+
+
+
+                            <h3
+                                class="text-sm font-bold uppercase tracking-widest mb-4 pb-2 border-b border-stone-sand">
+
+
+
+
+
+
+                                Цвет</h3>
+
+
+
+
+
+
+                            <div class="flex flex-wrap gap-3" id="color-filters">
+
+
+
+
+
+
+                                <button
+                                    class="color-filter w-8 h-8 rounded-full bg-[#E8E1D1] border-2 border-transparent hover:scale-110 transition-all shadow-sm"
+                                    data-color="beige" title="Бежевый"></button>
+
+
+
+
+
+
+                                <button
+                                    class="color-filter w-8 h-8 rounded-full bg-[#F5F5F0] border-2 border-transparent hover:scale-110 transition-all shadow-sm"
+                                    data-color="white" title="Белый"></button>
+
+
+
+
+
+
+                                <button
+                                    class="color-filter w-8 h-8 rounded-full bg-[#9C9488] border-2 border-transparent hover:scale-110 transition-all shadow-sm"
+                                    data-color="grey" title="Серый"></button>
+
+
+
+
+
+
+                                <button
+                                    class="color-filter w-8 h-8 rounded-full bg-[#D4A373] border-2 border-transparent hover:scale-110 transition-all shadow-sm"
+                                    data-color="yellow" title="Желтый"></button>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                        <button id="reset-filters"
+                            class="w-full py-3 border border-stone-sand text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-colors">Сбросить
+
+
+
+
+
+
+                            фильтры</button>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+                </aside>
+
+
+
+
+
+
+                <div class="flex-grow">
+
+
+
+
+
+
+                    <div class="flex justify-between items-center mb-8 pb-4 border-b border-stone-sand/50">
+
+
+
+
+
+
+                        <p id="products-count" class="text-sm text-stone-graphite/50 italic">Показано 10 товаров</p>
+
+
+
+
+
+
+                        <div class="flex items-center gap-4">
+
+
+
+
+
+
+                            <span
+                                class="text-xs uppercase font-bold tracking-widest text-stone-graphite/40">Сортировать:</span>
+
+
+
+
+
+
+                            <select
+                                class="text-sm border-none bg-transparent focus:ring-0 cursor-pointer font-medium text-stone-graphite">
+
+
+
+
+
+
+                                <option>По популярности</option>
+
+
+
+
+
+
+                                <option>Сначала дешевле</option>
+
+
+
+
+
+
+                                <option>Сначала дороже</option>
+
+
+
+
+
+
+                            </select>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+                    <div data-aos="fade-up" class="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-8"
+                        id="product-grid">
+
+
+
+
+
+
+                        <div data-aos="fade-up" data-aos-offset="100"
+                            class="product-card group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-sand/30 flex flex-col"
+                            data-color="beige white"
+                            data-description="Известен своей прочностью и теплым золотистым оттенком. Идеален для облицовки фасадов и создания декоративных элементов. Этот камень не боится морозов и сохраняет свой вид десятилетиями. Акушинский песчаник легко поддается обработке, что позволяет создавать из него сложные архитектурные формы.">
+
+
+
+
+
+
+                            <div class="aspect-[4/3] overflow-hidden relative">
+
+
+
+
+
+
+                                <img alt="Акушинский песчаник"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    src="img/akusha.jpg" />
+
+
+
+
+
+
+                                <div
+                                    class="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+
+
+
+
+
+
+                                    Хит продаж</div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="p-6 flex flex-col flex-grow">
+
+
+
+
+
+
+                                <h3
+                                    class="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">
+
+
+
+
+
+
+                                    Акушинский песчаник</h3>
+
+
+
+
+
+
+                                <div
+                                    class="space-y-2 mb-6 text-sm text-stone-graphite/60 border-l-2 border-stone-sand pl-4">
+
+
+
+
+
+
+                                    <p><span class="font-medium">Размеры:</span> 300 x 600 x 20 мм</p>
+
+
+
+
+
+
+                                    <p><span class="font-medium">Обработка:</span> Пиленая</p>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-auto">
+
+
+
+
+
+
+                                    <div class="mb-6">
+
+
+
+
+
+
+                                        <span class="text-2xl font-black text-primary">от 1 450 руб/м²</span>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="flex">
+
+
+
+
+
+
+                                        <button
+                                            class="details-btn w-full border border-stone-sand text-stone-graphite py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-all">Подробнее</button>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                        <div data-aos="fade-up" data-aos-offset="100"
+                            class="product-card group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-sand/30 flex flex-col"
+                            data-color="yellow"
+                            data-description="Добывается в окрестностях села Мекеги. Обладает уникальной рваной текстурой и высокой плотностью. Считается одним из самых долговечных материалов для наружной отделки. Его часто выбирают для облицовки цоколей и заборов благодаря его выдающимся защитным свойствам и строгому виду.">
+
+
+
+
+
+
+                            <div class="aspect-[4/3] overflow-hidden relative">
+
+
+
+
+
+
+                                <img alt="Мекегинский доломит"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    src="img/mekega.jpg" />
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="p-6 flex flex-col flex-grow">
+
+
+
+
+
+
+                                <h3
+                                    class="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">
+
+
+
+
+
+
+                                    Мекегинский доломит</h3>
+
+
+
+
+
+
+                                <div
+                                    class="space-y-2 mb-6 text-sm text-stone-graphite/60 border-l-2 border-stone-sand pl-4">
+
+
+
+
+
+
+                                    <p><span class="font-medium">Размеры:</span> 300 x 600 x 20 мм</p>
+
+
+
+
+
+
+                                    <p><span class="font-medium">Обработка:</span> Пиленая+дикушка</p>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-auto">
+
+
+
+
+
+
+                                    <div class="mb-6">
+
+
+
+
+
+
+                                        <span class="text-2xl font-black text-primary">от 1 890 руб/м²</span>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="flex">
+
+
+
+
+
+
+                                        <button
+                                            class="details-btn w-full border border-stone-sand text-stone-graphite py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-all">Подробнее</button>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                        <div data-aos="fade-up" data-aos-offset="100"
+                            class="product-card group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-sand/30 flex flex-col"
+                            data-color="white"
+                            data-description="Отличается мелкозернистой структурой и спокойным светлым тоном. Создает ощущение чистоты и легкости в архитектуре. Популярен для современных фасадов в стиле минимализм. Чиринский камень обладает отличными теплоизоляционными свойствами.">
+
+
+
+
+
+
+                            <div class="aspect-[4/3] overflow-hidden relative">
+
+
+
+
+
+
+                                <img alt="Чиринский камень"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    src="img/chira.jpg" />
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="p-6 flex flex-col flex-grow">
+
+
+
+
+
+
+                                <h3
+                                    class="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">
+
+
+
+
+
+
+                                    Чиринский камень</h3>
+
+
+
+
+
+
+                                <div
+                                    class="space-y-2 mb-6 text-sm text-stone-graphite/60 border-l-2 border-stone-sand pl-4">
+
+
+
+
+
+
+                                    <p><span class="font-medium">Размеры:</span> 300 x 600 x 20 мм</p>
+
+
+
+
+
+
+                                    <p><span class="font-medium">Обработка:</span> Пиленая</p>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-auto">
+
+
+
+
+
+
+                                    <div class="mb-6">
+
+
+
+
+
+
+                                        <span class="text-2xl font-black text-primary">от 1 200 руб/м²</span>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="flex">
+
+
+
+
+
+
+                                        <button
+                                            class="details-btn w-full border border-stone-sand text-stone-graphite py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-all">Подробнее</button>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                        <div data-aos="fade-up" data-aos-offset="100"
+                            class="product-card group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-sand/30 flex flex-col"
+                            data-color="grey"
+                            data-description="Легкий и пористый материал с богатой текстурой, содержащей отпечатки древних ракушек. Превосходно держит тепло внутри дома. Придает зданию средиземноморский или античный стиль. Это экологически чистый материал, который 'дышит'.">
+
+
+
+
+
+
+                            <div class="aspect-[4/3] overflow-hidden relative">
+
+
+
+
+
+
+                                <img alt="Фригский ракушечник"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    src="img/friga.jpg" />
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="p-6 flex flex-col flex-grow">
+
+
+
+
+
+
+                                <h3
+                                    class="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">
+
+
+
+
+
+
+                                    Фригский ракушечник</h3>
+
+
+
+
+
+
+                                <div
+                                    class="space-y-2 mb-6 text-sm text-stone-graphite/60 border-l-2 border-stone-sand pl-4">
+
+
+
+
+
+
+                                    <p><span class="font-medium">Размеры:</span> 300 x 600 x 20 мм</p>
+
+
+
+
+
+
+                                    <p><span class="font-medium">Обработка:</span> Пиленая</p>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-auto">
+
+
+
+
+
+
+                                    <div class="mb-6">
+
+
+
+
+
+
+                                        <span class="text-2xl font-black text-primary">от 950 руб/м²</span>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="flex">
+
+
+
+
+
+
+                                        <button
+                                            class="details-btn w-full border border-stone-sand text-stone-graphite py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-all">Подробнее</button>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                        <div data-aos="fade-up" data-aos-offset="100"
+                            class="product-card group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-sand/30 flex flex-col"
+                            data-color="beige"
+                            data-description="Исторический камень, из которого построена знаменитая крепость Нарын-Кала. Имеет насыщенный желтый цвет. Очень прочный для ракушечника, устойчив к морскому климату. Придает любому строению благородный и величественный вид.">
+
+
+
+
+
+
+                            <div class="aspect-[4/3] overflow-hidden relative">
+
+
+
+
+
+
+                                <img alt="Дербентский ракушечник"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    src="img/derbent.jpg" />
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="p-6 flex flex-col flex-grow">
+
+
+
+
+
+
+                                <h3
+                                    class="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">
+
+
+
+
+
+
+                                    Дербентский ракушечник</h3>
+
+
+
+
+
+
+                                <div
+                                    class="space-y-2 mb-6 text-sm text-stone-graphite/60 border-l-2 border-stone-sand pl-4">
+
+
+
+
+
+
+                                    <p><span class="font-medium">Размеры:</span> 300 x 600 x 20 мм</p>
+
+
+
+
+
+
+                                    <p><span class="font-medium">Обработка:</span> Пиленая</p>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-auto">
+
+
+
+
+
+
+                                    <div class="mb-6">
+
+
+
+
+
+
+                                        <span class="text-2xl font-black text-primary">от 950 руб/м²</span>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="flex">
+
+
+
+
+
+
+                                        <button
+                                            class="details-btn w-full border border-stone-sand text-stone-graphite py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-all">Подробнее</button>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                        <div data-aos="fade-up" data-aos-offset="100"
+                            class="product-card group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-sand/30 flex flex-col"
+                            data-color="yellow"
+                            data-description="Благородный коричневатый оттенок делает его уникальным выбором для статусных особняков. Отлично сочетается с темными кровельными материалами. Имеет плотную структуру и хорошую морозостойкость.">
+
+
+
+
+
+
+                            <div class="aspect-[4/3] overflow-hidden relative">
+
+
+
+
+
+
+                                <img alt="Рукельский ракушечник"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    src="img/rukel.jpg" />
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="p-6 flex flex-col flex-grow">
+
+
+
+
+
+
+                                <h3
+                                    class="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">
+
+
+
+
+
+
+                                    Рукельский ракушечник</h3>
+
+
+
+
+
+
+                                <div
+                                    class="space-y-2 mb-6 text-sm text-stone-graphite/60 border-l-2 border-stone-sand pl-4">
+
+
+
+
+
+
+                                    <p><span class="font-medium">Размеры:</span> 300 x 600 x 20 мм</p>
+
+
+
+
+
+
+                                    <p><span class="font-medium">Обработка:</span> Пиленая</p>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-auto">
+
+
+
+
+
+
+                                    <div class="mb-6">
+
+
+
+
+
+
+                                        <span class="text-2xl font-black text-primary">от 950 руб/м²</span>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="flex">
+
+
+
+
+
+
+                                        <button
+                                            class="details-btn w-full border border-stone-sand text-stone-graphite py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-all">Подробнее</button>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                        <div data-aos="fade-up" data-aos-offset="100"
+                            class="product-card group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-sand/30 flex flex-col"
+                            data-color="yellow"
+                            data-description="Крапчатый рисунок этого камня скрывает мелкие загрязнения, делая фасад практичным. Популярен для отделки как частных домов, так и общественных зданий. Его сероватый оттенок выглядит современно и стильно.">
+
+
+
+
+
+
+                            <div class="aspect-[4/3] overflow-hidden relative">
+
+
+
+
+
+
+                                <img alt="Гелимбатанский ракушечник"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    src="img/gelim.jpg" />
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="p-6 flex flex-col flex-grow">
+
+
+
+
+
+
+                                <h3
+                                    class="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">
+
+
+
+
+
+
+                                    Гелимбатанский ракушечник</h3>
+
+
+
+
+
+
+                                <div
+                                    class="space-y-2 mb-6 text-sm text-stone-graphite/60 border-l-2 border-stone-sand pl-4">
+
+
+
+
+
+
+                                    <p><span class="font-medium">Размеры:</span> 300 x 600 x 20 мм</p>
+
+
+
+
+
+
+                                    <p><span class="font-medium">Обработка:</span> Пиленая</p>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-auto">
+
+
+
+
+
+
+                                    <div class="mb-6">
+
+
+
+
+
+
+                                        <span class="text-2xl font-black text-primary">от 950 руб/м²</span>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="flex">
+
+
+
+
+
+
+                                        <button
+                                            class="details-btn w-full border border-stone-sand text-stone-graphite py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-all">Подробнее</button>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                        <div data-aos="fade-up" data-aos-offset="100"
+                            class="product-card group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-sand/30 flex flex-col"
+                            data-color="beige grey"
+                            data-description="Самый светлый из ракушечников, часто используется для резных наличников и карнизов. На солнце он кажется почти белоснежным. Обладает высокой однородностью текстуры.">
+
+
+
+
+
+
+                            <div class="aspect-[4/3] overflow-hidden relative">
+
+
+
+
+
+
+                                <img alt="Каякентский ракушечник"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    src="img/kayakent.jpg" />
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="p-6 flex flex-col flex-grow">
+
+
+
+
+
+
+                                <h3
+                                    class="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">
+
+
+
+
+
+
+                                    Каякентский ракушечник</h3>
+
+
+
+
+
+
+                                <div
+                                    class="space-y-2 mb-6 text-sm text-stone-graphite/60 border-l-2 border-stone-sand pl-4">
+
+
+
+
+
+
+                                    <p><span class="font-medium">Размеры:</span> 300 x 600 x 20 мм</p>
+
+
+
+
+
+
+                                    <p><span class="font-medium">Обработка:</span> Пиленая</p>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-auto">
+
+
+
+
+
+
+                                    <div class="mb-6">
+
+
+
+
+
+
+                                        <span class="text-2xl font-black text-primary">от 950 руб/м²</span>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="flex">
+
+
+
+
+
+
+                                        <button
+                                            class="details-btn w-full border border-stone-sand text-stone-graphite py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-all">Подробнее</button>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                        <div data-aos="fade-up" data-aos-offset="100"
+                            class="product-card group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-sand/30 flex flex-col"
+                            data-color="grey"
+                            data-description="Уникальный камень с очень крупными фрагментами морской фауны. Каждая плитка — это произведение искусства, созданное природой за миллионы лет. Очень фактурный и эффектный материал.">
+
+
+
+
+
+
+                            <div class="aspect-[4/3] overflow-hidden relative">
+
+
+
+
+
+
+                                <img alt="Морской ракушечник"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    src="img/morskoy.jpg" />
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="p-6 flex flex-col flex-grow">
+
+
+
+
+
+
+                                <h3
+                                    class="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">
+
+
+
+
+
+
+                                    Морской ракушечник</h3>
+
+
+
+
+
+
+                                <div
+                                    class="space-y-2 mb-6 text-sm text-stone-graphite/60 border-l-2 border-stone-sand pl-4">
+
+
+
+
+
+
+                                    <p><span class="font-medium">Размеры:</span> 300 x 600 x 20 мм</p>
+
+
+
+
+
+
+                                    <p><span class="font-medium">Обработка:</span> Пиленая</p>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-auto">
+
+
+
+
+
+
+                                    <div class="mb-6">
+
+
+
+
+
+
+                                        <span class="text-2xl font-black text-primary">от 950 руб/м²</span>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="flex">
+
+
+
+
+
+
+                                        <button
+                                            class="details-btn w-full border border-stone-sand text-stone-graphite py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-all">Подробнее</button>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                        <div data-aos="fade-up" data-aos-offset="100"
+                            class="product-card group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-stone-sand/30 flex flex-col"
+                            data-color="white"
+                            data-description="Свое название получил за характерные мелкие вкрапления темного цвета на белоснежном фоне. Создает эффект 'соли с перцем', что очень ценится дизайнерами интерьеров и фасадов за его необычность.">
+
+
+
+
+
+
+                            <div class="aspect-[4/3] overflow-hidden relative">
+
+
+
+
+
+
+                                <img alt="Крапинка"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    src="img/krapinka.png" />
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="p-6 flex flex-col flex-grow">
+
+
+
+
+
+
+                                <h3
+                                    class="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">
+
+
+
+
+
+
+                                    Крапинка</h3>
+
+
+
+
+
+
+                                <div
+                                    class="space-y-2 mb-6 text-sm text-stone-graphite/60 border-l-2 border-stone-sand pl-4">
+
+
+
+
+
+
+                                    <p><span class="font-medium">Размеры:</span> 300 x 600 x 20 мм</p>
+
+
+
+
+
+
+                                    <p><span class="font-medium">Обработка:</span> Пиленая</p>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                                <div class="mt-auto">
+
+
+
+
+
+
+                                    <div class="mb-6">
+
+
+
+
+
+
+                                        <span class="text-2xl font-black text-primary">от 950 руб/м²</span>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="flex">
+
+
+
+
+
+
+                                        <button
+                                            class="details-btn w-full border border-stone-sand text-stone-graphite py-3 rounded text-xs font-bold uppercase tracking-widest hover:bg-stone-sand transition-all">Подробнее</button>
+
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+    </main>
+
+
+
+
+
+
+    <footer class="bg-stone-graphite text-stone-cream py-16 border-t border-white/5">
+
+
+
+
+
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+
+
+
+
+
+            <div class="flex flex-col items-center text-center mb-12">
+
+
+
+
+
+
+                <span class="text-3xl font-extrabold tracking-tighter text-primary block mb-6">Facing<span
+                        class="text-white">Stone</span></span>
+
+
+
+
+
+
+                <p class="text-base text-stone-cream/50 leading-relaxed max-w-xl">
+
+
+
+
+
+
+                    Лучший выбор для каменной архитектуры в России. От недр дагестанских гор до вашего поместья.
+
+
+
+
+
+
+                </p>
+
+
+
+
+
+
+                <div class="mt-8 flex flex-col items-center gap-6">
+
+
+
+
+
+
+                    <div class="flex gap-4">
+
+
+
+
+
+
+                        <a href="https://wa.me/79634242776" target="_blank"
+                            class="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center hover:scale-110 shadow-lg shadow-[#25D366]/20 transition-all duration-300 group"
+                            title="Написать в WhatsApp">
+
+
+
+
+
+
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+
+
+
+
+
+
+                                <path
+                                    d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.373-.043c.098-.115.424-.491.539-.661.115-.17.23-.142.39-.084.16.058 1.012.477 1.185.564.173.087.289.129.332.202.043.073.043.423-.101.827z">
+
+
+
+
+
+
+                                </path>
+
+
+
+
+
+
+                            </svg>
+
+
+
+
+
+
+                        </a>
+
+
+
+
+
+
+                        <a href="https://instagram.com/dagkam_77" target="_blank"
+                            class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center hover:scale-110 shadow-lg shadow-[#ee2a7b]/20 transition-all duration-300 group"
+                            title="Мы в Instagram">
+
+
+
+
+
+
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+
+
+
+
+
+
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z">
+
+
+
+
+
+
+                                </path>
+
+
+
+
+
+
+                            </svg>
+
+
+
+
+
+
+                        </a>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+                    <p class="text-sm text-stone-cream/40">© 2024 ООО FacingStone. Все права защищены.</p>
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+
+
+
+
+
+
+                <div class="flex items-center gap-2">
+
+
+
+
+
+
+                    <span class="text-[10px] text-stone-cream/30 uppercase tracking-tight">Доставка по всей РФ:</span>
+
+
+
+
+
+
+                    <span class="text-[10px] bg-white/5 px-2 py-1 rounded">Москва</span>
+
+
+
+
+
+
+                    <span class="text-[10px] bg-white/5 px-2 py-1 rounded">Спб</span>
+
+
+
+
+
+
+                    <span class="text-[10px] bg-white/5 px-2 py-1 rounded">Краснодар</span>
+
+
+
+
+
+
+                    <span class="text-[10px] bg-white/5 px-2 py-1 rounded">Сочи</span>
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+    </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Modal for details -->
+
+
+
+
+
+
+    <div id="product-modal" class="fixed inset-0 z-[100] hidden">
+
+
+
+
+
+
+        <div class="absolute inset-0 bg-stone-graphite/90 backdrop-blur-sm modal-close"></div>
+
+
+
+
+
+
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
+
+
+
+
+
+
+            <button
+                class="absolute top-4 right-4 z-10 w-10 h-10 bg-white/80 backdrop-blur rounded-full flex items-center justify-center hover:bg-white transition-colors modal-close">
+
+
+
+
+
+
+                <span class="material-symbols-outlined text-stone-graphite text-2xl">close</span>
+
+
+
+
+
+
+            </button>
+
+
+
+
+
+
+            <div class="flex flex-col lg:flex-row">
+
+
+
+
+
+
+                <div class="lg:w-1/2 aspect-square lg:aspect-auto">
+
+
+
+
+
+
+                    <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+                <div class="lg:w-1/2 p-8 lg:p-12">
+
+
+
+
+
+
+                    <h2 id="modal-title" class="text-3xl font-serif font-bold text-stone-graphite mb-6"></h2>
+
+
+
+
+
+
+                    <div class="prose prose-stone prose-lg">
+
+
+
+
+
+
+                        <p id="modal-description" class="text-stone-graphite/80 leading-relaxed"></p>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+                    <div class="mt-8 pt-8 border-t border-stone-sand/30">
+
+
+
+
+
+
+                        <p class="text-sm font-bold text-primary uppercase tracking-widest mb-4">Характеристики камня
+
+
+
+
+
+
+                        </p>
+
+
+
+
+
+
+                        <div id="modal-specs" class="space-y-2 text-sm text-stone-graphite/60"></div>
+
+
+
+
+
+
+                        <button
+                            class="w-full mt-8 bg-primary text-white py-4 rounded font-bold uppercase tracking-widest hover:bg-opacity-90 transition-all modal-close">Закрыть</button>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- AOS Animations JS -->
+
+
+
+
+
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+
+
+
+
+
+    <script>
+
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+
+
+
+
+
+            AOS.init({
+
+
+
+
+
+
+                duration: 800,
+
+
+
+
+
+
+                once: true,
+
+
+
+
+
+
+                offset: 50
+
+
+
+
+
+
+            });
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+    <script src="js/mobile-menu.js"></script>
+    <script src="js/katalog.js"></script>
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+</html>

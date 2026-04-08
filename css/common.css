@@ -1,0 +1,7 @@
+body { font-family: 'Manrope', sans-serif; }
+
+.glass-header {
+    background: rgba(248, 247, 246, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184, 88, 20, 0.1);
+}

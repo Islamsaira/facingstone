@@ -1,0 +1,8 @@
+.contact-card:hover .icon-box {
+    background-color: #b85814;
+    color: white;
+    transform: translateY(-5px);
+}
+.map-container {
+    filter: grayscale(0.2) sepia(0.1);
+}

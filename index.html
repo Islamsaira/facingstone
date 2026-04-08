@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="ru">
+
+
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <title>Облицовочный камень и фасадные работы | Дагестанский камень — FacingStone</title>
+    <meta name="description"
+        content="Купить премиальный облицовочный камень напрямую с карьера. Дагестанский камень: ракушечник, песчаник, доломит, известняк. Профессиональные фасадные работы любой сложности. Доставка по всей России.">
+    <meta name="keywords"
+        content="облицовочный камень, дагестанский камень, отделка фасада, купить камень для фасада, ракушечник, песчаник, доломит, фасадные работы">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+    <script src="css/tailwind-config.js"></script>
+
+    <link rel="stylesheet" href="css/common.css">
+
+    <link rel="stylesheet" href="css/index.css">
+
+
+
+    <!-- SEO and Open Graph Meta Tags -->
+
+    <meta name="description"
+        content="Лучший выбор для каменной архитектуры в России. От недр дагестанских гор до вашего поместья." />
+
+    <meta property="og:title" content="FacingStone - Натуральный Дагестанский Камень" />
+
+    <meta property="og:description"
+        content="Лучший выбор для каменной архитектуры в России. От недр дагестанских гор до вашего поместья." />
+
+    <meta property="og:image" content="https://dagkamen.ru/img/gallery_hero.jpg" />
+
+    <meta property="og:type" content="website" />
+
+
+
+    <!-- AOS Animations CSS -->
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+
+    <!-- Firebase Compat Libraries -->
+
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+
+</head>
+
+
+
+<body
+    class="bg-background-light dark:bg-background-dark text-stone-graphite dark:text-stone-cream font-display antialiased">
+
+    <header id="main-header" class="fixed top-0 w-full z-50 transition-all duration-300">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="flex justify-between items-center h-20">
+
+                <div class="flex items-center gap-2">
+
+                    <a href="index.html"><span class="text-2xl font-extrabold tracking-tighter text-primary">Facing<span
+                                id="logo-part" class="text-white">Stone</span></span></a>
+
+                </div>
+
+                <nav class="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-widest text-white/90">
+
+                    <a class="hover:text-primary transition-colors" href="katalog.html">Каталог</a>
+
+                    <a class="hover:text-primary transition-colors" href="portfolio.html">Портфолио</a>
+
+                    <a class="hover:text-primary transition-colors" href="galerea.html">Галерея от клиентов</a>
+
+                    <a class="hover:text-primary transition-colors" href="tsena.html">Цены</a>
+
+                    <a class="hover:text-primary transition-colors" href="contaki.html">Контакты</a>
+
+                </nav>
+
+                <div class="flex items-center gap-6">
+
+                    <div class="hidden lg:flex flex-col items-end text-white text-right">
+
+                        <a class="text-lg font-bold hover:text-primary transition-colors" href="tel:+79640008688">+7
+                            (964) 000-86-88</a>
+
+                        <span class="text-[10px] uppercase tracking-tighter text-white/60">Работаем ежедневно 9:00 -
+                            21:00</span>
+
+                    </div>
+
+                    <a href="sms:+79640008688"
+                        class="bg-primary text-white px-6 py-2.5 rounded hover:bg-opacity-90 transition-all font-bold text-sm uppercase tracking-wider hidden sm:inline-block text-center">Заказать
+                        звонок</a>
+
+
+
+                    <!-- Mobile Menu Button -->
+
+                    <button id="mobile-menu-btn" class="md:hidden text-white p-2 flex items-center">
+
+                        <span class="material-icons text-3xl">menu</span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Mobile Menu Shutter -->
+
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-stone-graphite/60 backdrop-blur-xl z-[-1] transition-all duration-500 opacity-0 pointer-events-none translate-y-[-100%]">
+
+            <div class="flex flex-col items-center justify-center h-full space-y-8 text-white">
+
+                <a class="text-2xl font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors"
+                    href="katalog.html">Каталог</a>
+
+                <a class="text-2xl font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors"
+                    href="portfolio.html">Портфолио</a>
+
+                <a class="text-2xl font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors"
+                    href="galerea.html">Галерея</a>
+
+                <a class="text-2xl font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors"
+                    href="tsena.html">Цены</a>
+
+                <a class="text-2xl font-bold uppercase tracking-[0.2em] hover:text-primary transition-colors"
+                    href="contaki.html">Контакты</a>
+
+
+
+                <div class="pt-8 flex flex-col items-center gap-4 text-center">
+
+                    <a class="text-xl font-bold text-primary" href="tel:+79640008688">+7 (964) 000-86-88</a>
+
+                    <a href="sms:+79640008688"
+                        class="bg-primary text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest text-sm">Заказать
+                        звонок</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <main>
+
+        <!-- Hero Section -->
+
+        <section class="relative min-h-screen flex items-center overflow-hidden">
+
+            <div class="absolute inset-0 z-0">
+
+                <img alt="Роскошный особняк из камня с классическими архитектурными деталями фасада"
+                    class="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqaRIgAoUPS7ywIU9q9ekWtTB39uoHHkaUHxZzPUf3hkdiU2njJobNfMMtj1Wq2cXOxGKZNjLgdyZtB3p91H-8rFswQcRaYTez-TLYKQN0AqdO5mq2kzAzKKOpBIro8l95zJfVOhfpMBKh3t6OQpFbQoeSGaQmqk280rh3sp3iSLY8iMT_1UTDy1HgvN-QrzCI47nQTFy3-HthiLTJRslo6bU7raiuucdZGRk7rBcLJHnDNPcVU3xWfFx8J25mvL-4jTvGJ9imBAc" />
+
+                <div
+                    class="absolute inset-0 bg-gradient-to-r from-stone-graphite/80 via-stone-graphite/40 to-transparent">
+                </div>
+
+            </div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+
+                <div class="max-w-3xl">
+
+                    <div
+                        class="inline-flex items-center gap-2 bg-primary/20 backdrop-blur-md border border-primary/30 text-primary px-4 py-2 rounded-full mb-8">
+
+                        <span class="material-icons text-sm">workspace_premium</span>
+
+                        <span class="text-xs font-bold uppercase tracking-widest">Премиальный натуральный камень</span>
+
+                    </div>
+
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-[1.1] mb-6">
+
+                        Дагестанский камень напрямую с карьера — <span class="text-primary">роскошь, созданная
+                            природой</span>
+
+                    </h1>
+
+                    <p class="text-xl text-stone-cream/90 mb-10 max-w-2xl leading-relaxed">
+
+                        Облицовка фасадов и изготовление изделий любой сложности с гарантией 30 лет. Работаем по всей
+                        России.
+
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 mb-12">
+
+                        <a href="katalog.html">
+
+                            <button
+                                class="bg-primary text-white px-10 py-5 rounded text-base font-bold uppercase tracking-widest hover:shadow-2xl hover:shadow-primary/30 transition-all w-full sm:w-auto">
+
+                                Смотреть каталог
+
+                            </button>
+
+                        </a>
+
+                        <a href="#contacts">
+
+                            <button
+                                class="bg-white/10 backdrop-blur-md border border-white/30 text-white px-10 py-5 rounded text-base font-bold uppercase tracking-widest hover:bg-white/20 transition-all w-full sm:w-auto">
+
+                                Консультация
+
+                            </button>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Advantages Section -->
+
+        <section class="py-24 bg-background-light dark:bg-background-dark/50">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+
+                    <div class="flex flex-col items-center text-center group">
+
+                        <div
+                            class="w-16 h-16 bg-white dark:bg-white/5 rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-300">
+
+                            <span class="material-icons text-3xl">local_shipping</span>
+
+                        </div>
+
+                        <h3 class="text-xl font-bold mb-2">Быстрая доставка</h3>
+
+                        <p class="text-sm text-stone-graphite/60 dark:text-stone-cream/60">Собственный парк техники
+                            позволяет доставлять камень в любую точку России точно в срок.</p>
+
+                    </div>
+
+                    <div class="flex flex-col items-center text-center group">
+
+                        <div
+                            class="w-16 h-16 bg-white dark:bg-white/5 rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-300">
+
+                            <span class="material-icons text-3xl">verified</span>
+
+                        </div>
+
+                        <h3 class="text-xl font-bold mb-2">Гарантия качества</h3>
+
+                        <p class="text-sm text-stone-graphite/60 dark:text-stone-cream/60">Предоставляем официальную
+                            гарантию на материал и все виды монтажных работ до 30 лет.</p>
+
+                    </div>
+
+                    <div class="flex flex-col items-center text-center group">
+
+                        <div
+                            class="w-16 h-16 bg-white dark:bg-white/5 rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-300">
+
+                            <span class="material-icons text-3xl">precision_manufacturing</span>
+
+                        </div>
+
+                        <h3 class="text-xl font-bold mb-2">Четкая геометрия</h3>
+
+                        <p class="text-sm text-stone-graphite/60 dark:text-stone-cream/60">Итальянское оборудование
+                            обеспечивает миллиметровую точность каждого изделия.</p>
+
+                    </div>
+
+                    <div class="flex flex-col items-center text-center group">
+
+                        <div
+                            class="w-16 h-16 bg-white dark:bg-white/5 rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-primary group-hover:text-white transition-all duration-300">
+
+                            <span class="material-icons text-3xl">eco</span>
+
+                        </div>
+
+                        <h3 class="text-xl font-bold mb-2">Экологичность</h3>
+
+                        <p class="text-sm text-stone-graphite/60 dark:text-stone-cream/60">Сертифицированные натуральные
+                            материалы, отсутствие радиации, безопасность для интерьера.</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Catalog Section -->
+
+        <section class="py-24" id="catalog">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+
+                    <div>
+
+                        <span class="text-primary font-bold uppercase tracking-widest text-sm mb-4 block">Наша
+                            коллекция</span>
+
+                        <h2 class="text-4xl md:text-5xl font-extrabold">Изысканные текстуры камня</h2>
+
+                    </div>
+
+                    <p
+                        class="max-w-md text-stone-graphite/60 dark:text-stone-cream/60 italic border-l-2 border-primary pl-6">
+
+                        Каждая плита уникальна и хранит в себе историю миллионов лет. Ознакомьтесь с нашей подборкой
+                        лучших дагестанских месторождений.
+
+                    </p>
+
+                </div>
+
+                <div data-aos="fade-up" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"
+                    id="index-catalog-grid">
+
+                    <!-- Заполняется из JS -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Gallery Section -->
+
+        <section class="py-24 bg-stone-cream dark:bg-background-dark/80" id="gallery">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="text-center mb-16">
+
+                    <span class="text-primary font-bold uppercase tracking-widest text-sm mb-4 block">Наши работы у вас
+                        дома</span>
+
+                    <h2 class="text-4xl md:text-5xl font-extrabold mb-6">Галерея от клиентов</h2>
+
+                    <p class="max-w-2xl mx-auto text-stone-graphite/60 dark:text-stone-cream/60">
+
+                        Реальные фотографии объектов, присланные нашими заказчиками. Посмотрите, как наш камень
+                        преображает интерьеры и фасады в жизни.
+
+                    </p>
+
+                </div>
+
+                <div class="masonry-grid" id="index-gallery-grid">
+
+                    <!-- Заполняется из JS -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Contacts Section -->
+
+        <section class="py-24 relative" id="contacts">
+
+            <div class="absolute inset-0 z-0">
+
+                <img alt="Абстрактный фон грубой каменной стены с золотистым светом"
+                    class="w-full h-full object-cover opacity-10"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaKVo9nQ2uUi-jPuv56LSRVFt4FT2LkuVDwqFCeuUPqCFngvEkVr3abzzx5e47kpLp_3L38LGqNWbrkHIWdjdijf8wr-PPpgu9_SSjqc8qDBbSTq5XfIF_DEKqdV_-dDQvK3feFE2x0ckh-3z8hTbDbWdPOoOAnKzewvyYBP6aDfFiorsuWuSznK2J8M_hjGsfkVGXxDYgaTF6qyRA2jLF27JmYe-YBG39w9RcQNxHBeuRibBAP_ohmWy6DhpeJCKcLZ0SySnzBk4" />
+
+            </div>
+
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+                <div
+                    class="bg-white dark:bg-stone-graphite/90 rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-stone-sand dark:border-white/5">
+
+                    <div class="md:w-1/2 p-12 bg-primary text-white">
+
+                        <h2 class="text-4xl font-extrabold mb-6">Давайте обсудим ваш проект</h2>
+
+                        <p class="text-white/80 mb-8 leading-relaxed">
+
+                            Получите подробный расчет стоимости и профессиональную консультацию по выбору камня под ваш
+                            климат и архитектуру.
+
+                        </p>
+
+                        <div class="space-y-6">
+
+                            <div class="flex items-center gap-4">
+
+                                <span class="material-icons opacity-70">phone_in_talk</span>
+
+                                <a class="font-bold text-xl hover:text-white/80 transition-colors"
+                                    href="tel:+79640008688">+7 (964) 000-86-88</a>
+
+                            </div>
+
+                            <div class="flex items-center gap-4">
+
+                                <span class="material-icons opacity-70">location_on</span>
+
+                                <span>Прямые поставки из Дагестана по всей России</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="md:w-1/2 p-12">
+
+                        <form id="contact-form" action="https://formsubmit.co/shximai@gmail.com" method="POST"
+                            class="space-y-6">
+
+                            <input type="hidden" name="_subject" value="Новая заявка с сайта FacingStone!">
+
+                            <input type="hidden" name="_captcha" value="false">
+
+                            <div>
+
+                                <label
+                                    class="block text-xs font-bold uppercase tracking-widest text-stone-graphite/40 dark:text-stone-cream/40 mb-2">Имя</label>
+
+                                <input
+                                    class="w-full border-0 border-b border-stone-sand dark:border-white/10 bg-transparent py-3 focus:ring-0 focus:border-primary transition-colors placeholder:text-stone-graphite/20"
+                                    placeholder="Ваше имя" type="text" name="Имя" required />
+
+                            </div>
+
+                            <div>
+
+                                <label
+                                    class="block text-xs font-bold uppercase tracking-widest text-stone-graphite/40 dark:text-stone-cream/40 mb-2">Телефон</label>
+
+                                <input
+                                    class="w-full border-0 border-b border-stone-sand dark:border-white/10 bg-transparent py-3 focus:ring-0 focus:border-primary transition-colors placeholder:text-stone-graphite/20"
+                                    placeholder="+7 (___) ___-__-__" type="tel" name="Телефон" required />
+
+                            </div>
+
+                            <div>
+
+                                <label
+                                    class="block text-xs font-bold uppercase tracking-widest text-stone-graphite/40 dark:text-stone-cream/40 mb-2">Детали
+                                    проекта</label>
+
+                                <textarea
+                                    class="w-full border-0 border-b border-stone-sand dark:border-white/10 bg-transparent py-3 focus:ring-0 focus:border-primary transition-colors placeholder:text-stone-graphite/20 resize-none"
+                                    placeholder="Расскажите о вашем объекте..." rows="3" name="Детали_проекта"
+                                    required></textarea>
+
+                            </div>
+
+                            <button
+                                class="w-full bg-primary text-white py-5 rounded-lg font-bold uppercase tracking-widest hover:bg-opacity-90 transition-all shadow-xl shadow-primary/20"
+                                type="submit">Отправить заявку</button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <footer class="bg-stone-graphite text-stone-cream py-16 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col items-center text-center mb-12">
+                <span class="text-3xl font-extrabold tracking-tighter text-primary block mb-6">Facing<span
+                        class="text-white">Stone</span></span>
+                <p class="text-base text-stone-cream/50 leading-relaxed max-w-xl">
+                    Лучший выбор для каменной архитектуры в России. От недр дагестанских гор до вашего поместья.
+                </p>
+                <div class="mt-8 flex flex-col items-center gap-6">
+                    <div class="flex gap-4">
+                        <a href="https://wa.me/79634242776" target="_blank"
+                            class="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center hover:scale-110 shadow-lg shadow-[#25D366]/20 transition-all duration-300 group"
+                            title="Написать в WhatsApp">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.373-.043c.098-.115.424-.491.539-.661.115-.17.23-.142.39-.084.16.058 1.012.477 1.185.564.173.087.289.129.332.202.043.073.043.423-.101.827z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="https://instagram.com/dagkam_77" target="_blank"
+                            class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center hover:scale-110 shadow-lg shadow-[#ee2a7b]/20 transition-all duration-300 group"
+                            title="Мы в Instagram">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="text-sm text-stone-cream/40">© 2024 ООО FacingStone. Все права защищены.</p>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] text-stone-cream/30 uppercase tracking-tight">Доставка по всей РФ:</span>
+                    <span class="text-[10px] bg-white/5 px-2 py-1 rounded">Москва</span>
+                    <span class="text-[10px] bg-white/5 px-2 py-1 rounded">Спб</span>
+                    <span class="text-[10px] bg-white/5 px-2 py-1 rounded">Краснодар</span>
+                    <span class="text-[10px] bg-white/5 px-2 py-1 rounded">Сочи</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- AOS Animations JS -->
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            AOS.init({ duration: 800, once: true, offset: 50 });
+
+        });
+
+    </script>
+
+
+
+    <script src="js/firebase-init.js"></script>
+
+    <script src="js/index.js"></script>
+
+</body>
+
+
+
+</html>

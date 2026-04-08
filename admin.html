@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <title>Админ-панель | FacingStone</title>
+    <!-- CSS & Fonts -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Firebase SDK (LOAD ONCE) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="js/firebase-init.js"></script>
+    <script src="js/admin.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#b85814",
+                        "sidebar": "#1a1310",
+                        "card": "#ffffff",
+                        "bg": "#f4f1ed",
+                        "stone-sand": "#E5DED1",
+                        "stone-cream": "#F9F6F1",
+                        "stone-graphite": "#2D2D2D",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .sidebar-link.active {
+            background: rgba(184, 88, 20, 0.15);
+            color: #b85814;
+            border-right: 3px solid #b85814;
+        }
+
+        .sidebar-link:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive Sidebar */
+        @media (max-width: 1024px) {
+            #admin-sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            #admin-sidebar.open {
+                transform: translateX(0);
+            }
+
+            #admin-main {
+                margin-left: 0 !important;
+            }
+
+            #sidebar-overlay {
+                display: none;
+            }
+
+            #sidebar-overlay.open {
+                display: block;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d4c8b8;
+            border-radius: 3px;
+        }
+
+        .order-row:hover {
+            background: #faf8f5;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #d1d5db;
+            border-radius: 999px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .toggle-switch input:checked+.toggle-slider {
+            background: #b85814;
+        }
+
+        .toggle-switch input:checked+.toggle-slider:before {
+            transform: translateX(22px);
+        }
+    </style>
+</head>
+
+<body class="bg-bg text-stone-graphite font-display antialiased">
+
+    <!-- Login Screen -->
+    <div id="login-screen"
+        class="fixed inset-0 z-[200] bg-gradient-to-br from-sidebar via-stone-graphite to-sidebar flex items-center justify-center">
+        <div class="w-full max-w-md px-6">
+            <div class="text-center mb-10">
+                <span class="text-3xl font-extrabold tracking-tighter text-primary">Facing<span
+                        class="text-white">Stone</span></span>
+                <p class="text-white/40 text-sm mt-2 uppercase tracking-widest">Панель управления</p>
+            </div>
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
+                <div class="space-y-5">
+                    <div>
+                        <label
+                            class="block text-xs font-bold uppercase tracking-widest text-white/40 mb-2">Логин</label>
+                        <input id="login-user" type="text" value="admin"
+                            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/20 focus:ring-2 focus:ring-primary focus:border-transparent" />
+                    </div>
+                    <div>
+                        <label
+                            class="block text-xs font-bold uppercase tracking-widest text-white/40 mb-2">Пароль</label>
+                        <input id="login-pass" type="password" placeholder="••••••••"
+                            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/20 focus:ring-2 focus:ring-primary focus:border-transparent" />
+                    </div>
+                    <div id="login-error" class="text-red-400 text-sm hidden">Неверный логин или пароль</div>
+                    <button onclick="doLogin()"
+                        class="w-full bg-primary text-white py-4 rounded-lg font-bold uppercase tracking-widest hover:bg-opacity-90 transition-all">Войти</button>
+                </div>
+            </div>
+            <p class="text-center text-white/20 text-xs mt-6">Пароль по умолчанию: admin / admin</p>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div id="admin-app" class="hidden flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="admin-sidebar" class="w-64 bg-sidebar text-white flex-shrink-0 flex flex-col fixed h-full z-50">
+            <div class="p-6 border-b border-white/5">
+                <span class="text-xl font-extrabold tracking-tighter text-primary">Facing<span
+                        class="text-white">Stone</span></span>
+                <p class="text-white/30 text-[10px] uppercase tracking-widest mt-1">Админ-панель</p>
+            </div>
+            <nav class="flex-1 py-4 space-y-1 px-3 overflow-y-auto">
+                <button onclick="showTab('dashboard')"
+                    class="sidebar-link active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white/70 transition-all"
+                    data-tab="dashboard">
+                    <span class="material-symbols-outlined text-xl">dashboard</span> Дашборд
+                </button>
+                <button onclick="showTab('orders')"
+                    class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white/70 transition-all"
+                    data-tab="orders">
+                    <span class="material-symbols-outlined text-xl">inbox</span> Заявки
+                    <span id="orders-badge"
+                        class="ml-auto bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+                </button>
+                <button data-tab="catalog" onclick="showTab('catalog')"
+                    class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:bg-white/5 transition-all font-medium">
+                    <span class="material-symbols-outlined">grid_view</span> Каталог
+                </button>
+                <button data-tab="portfolio" onclick="showTab('portfolio')"
+                    class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:bg-white/5 transition-all font-medium">
+                    <span class="material-symbols-outlined">photo_camera</span> Портфолио
+                </button>
+                <button data-tab="gallery" onclick="showTab('gallery')"
+                    class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:bg-white/5 transition-all font-medium">
+                    <span class="material-symbols-outlined">photo_library</span> Галерея
+                </button>
+                <button onclick="showTab('settings')"
+                    class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white/70 transition-all"
+                    data-tab="settings">
+                    <span class="material-symbols-outlined text-xl">settings</span> Настройки
+                </button>
+            </nav>
+            <div class="p-4 border-t border-white/5">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm">
+                        A</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold truncate">Администратор</p>
+                        <p class="text-[10px] text-white/30 uppercase tracking-widest">Онлайн</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Overlay for mobile sidebar -->
+        <div id="sidebar-overlay" onclick="toggleSidebar()"
+            class="fixed inset-0 bg-black/50 z-40 lg:hidden"></div>
+
+        <!-- Main Content -->
+        <main id="admin-main" class="flex-1 lg:ml-64 p-4 lg:p-8 overflow-y-auto">
+            <!-- Mobile Toggle Bar -->
+            <div class="lg:hidden flex items-center justify-between mb-6 bg-white p-4 -m-4 mb-4 border-b border-stone-sand/30 sticky top-0 z-30">
+                <span class="text-xl font-extrabold tracking-tighter text-primary">Facing<span class="text-stone-graphite">Stone</span></span>
+                <button onclick="toggleSidebar()" class="p-2 text-stone-graphite">
+                    <span class="material-icons">menu</span>
+                </button>
+            </div>
+
+            <!-- Top Bar (Desktop titles, can be used for secondary mobile info) -->
+            <!-- Top Bar -->
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h1 id="page-title" class="text-2xl font-extrabold">Дашборд</h1>
+                    <p id="page-subtitle" class="text-sm text-stone-graphite/50">Обзор основных показателей сайта</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs text-stone-graphite/40" id="current-date"></span>
+                    <a href="index.html" target="_blank"
+                        class="flex items-center gap-2 bg-white border border-stone-sand/50 px-4 py-2 rounded-lg text-sm font-medium hover:border-primary/30 transition-all">
+                        <span class="material-symbols-outlined text-base">open_in_new</span> Открыть сайт
+                    </a>
+                </div>
+            </div>
+
+            <!-- DASHBOARD TAB -->
+            <div id="tab-dashboard" class="tab-content active fade-in">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 mb-8">
+                    <div class="stat-card bg-white rounded-xl p-6 border border-stone-sand/30 shadow-sm text-center">
+                        <p class="text-3xl font-extrabold text-primary">
+                            <span id="stat-visits-today">0</span>
+                            <span class="text-lg text-stone-graphite/40">/ <span id="stat-visits-month">0</span></span>
+                        </p>
+                        <p class="text-xs text-stone-graphite/50 uppercase tracking-widest mt-1">Визиты (сегодня /
+                            месяц)</p>
+                    </div>
+                    <div class="stat-card bg-white rounded-xl p-6 border border-stone-sand/30 shadow-sm text-center">
+                        <p id="stat-new-orders" class="text-3xl font-extrabold">0</p>
+                        <p class="text-xs text-stone-graphite/50 uppercase tracking-widest mt-1">Новых заявок</p>
+                    </div>
+                    <div class="stat-card bg-white rounded-xl p-6 border border-stone-sand/30 shadow-sm text-center">
+                        <p id="stat-done-orders" class="text-3xl font-extrabold">0</p>
+                        <p class="text-xs text-stone-graphite/50 uppercase tracking-widest mt-1">Завершено</p>
+                    </div>
+                    <div class="stat-card bg-white rounded-xl p-6 border border-stone-sand/30 shadow-sm text-center">
+                        <p id="stat-products" class="text-3xl font-extrabold">0</p>
+                        <p class="text-xs text-stone-graphite/50 uppercase tracking-widest mt-1">Товары</p>
+                    </div>
+                    <div class="stat-card bg-white rounded-xl p-6 border border-stone-sand/30 shadow-sm text-center">
+                        <p id="stat-projects" class="text-3xl font-extrabold">0</p>
+                        <p class="text-xs text-stone-graphite/50 uppercase tracking-widest mt-1">Галерея</p>
+                    </div>
+                </div>
+                <!-- Recent Orders -->
+                <div class="bg-white rounded-xl border border-stone-sand/30 shadow-sm overflow-hidden">
+                    <div class="px-6 py-5 border-b border-stone-sand/30 flex items-center justify-between">
+                        <h3 class="font-bold text-lg">Последние заявки</h3>
+                    </div>
+                    <table class="w-full">
+                        <tbody id="dashboard-orders"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ORDERS TAB -->
+            <div id="tab-orders" class="tab-content fade-in">
+                <div class="bg-white rounded-xl border border-stone-sand/30 shadow-sm overflow-hidden">
+                    <div class="px-6 py-5 border-b border-stone-sand/30 flex items-center justify-between">
+                        <h3 class="font-bold text-lg">Заявки</h3>
+                    </div>
+                    <table class="w-full">
+                        <thead class="bg-stone-sand/10">
+                            <tr class="text-xs uppercase tracking-widest text-stone-graphite/50">
+                                <th class="text-left px-6 py-4">Клиент</th>
+                                <th class="text-left px-6 py-4">Контакты</th>
+                                <th class="text-left px-6 py-4">Сообщение</th>
+                                <th class="text-left px-6 py-4">Дата</th>
+                                <th class="text-left px-6 py-4">Статус</th>
+                                <th class="text-left px-6 py-4"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CATALOG TAB -->
+            <div id="tab-catalog" class="tab-content fade-in">
+                <div class="flex justify-end mb-6">
+                    <button onclick="openProductModal()"
+                        class="bg-primary text-white px-6 py-3 rounded-lg font-bold uppercase tracking-widest text-sm">Добавить
+                        товар</button>
+                </div>
+                <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <!-- PORTFOLIO TAB -->
+            <div id="tab-portfolio" class="tab-content fade-in">
+                <div class="flex justify-end mb-6">
+                    <button onclick="openWorkshopModal()"
+                        class="bg-primary text-white px-6 py-3 rounded-lg font-bold uppercase tracking-widest text-sm">Добавить
+                        фото</button>
+                </div>
+                <div id="workshop-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+            </div>
+
+            <!-- GALLERY TAB -->
+            <div id="tab-gallery" class="tab-content fade-in">
+                <div class="flex justify-end mb-6">
+                    <button onclick="openProjectModal()"
+                        class="bg-primary text-white px-6 py-3 rounded-lg font-bold uppercase tracking-widest text-sm">Добавить
+                        проект</button>
+                </div>
+                <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <!-- SETTINGS TAB -->
+            <div id="tab-settings" class="tab-content fade-in">
+                <div class="max-w-2xl bg-white rounded-xl border border-stone-sand/30 p-8 shadow-sm space-y-6">
+                    <h3 class="font-bold text-lg mb-4">Настройки сайта</h3>
+                    <div>
+                        <label
+                            class="block text-xs font-bold uppercase tracking-widest text-stone-graphite/40 mb-2">Заголовок
+                            на главной (Hero Title)</label>
+                        <textarea id="set-hero-title" rows="2"
+                            class="w-full border border-stone-sand rounded-lg px-4 py-3 focus:ring-primary"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                class="block text-xs font-bold uppercase tracking-widest text-stone-graphite/40 mb-2">Телефон</label>
+                            <input id="set-comp-phone" type="text"
+                                class="w-full border border-stone-sand rounded-lg px-4 py-3 focus:ring-primary" />
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold uppercase tracking-widest text-stone-graphite/40 mb-2">WhatsApp
+                                (цифрами)</label>
+                            <input id="set-comp-whatsapp" type="text"
+                                class="w-full border border-stone-sand rounded-lg px-4 py-3 focus:ring-primary" />
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                class="block text-xs font-bold uppercase tracking-widest text-stone-graphite/40 mb-2">Email</label>
+                            <input id="set-comp-email" type="email"
+                                class="w-full border border-stone-sand rounded-lg px-4 py-3 focus:ring-primary" />
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold uppercase tracking-widest text-stone-graphite/40 mb-2">Instagram
+                                (username)</label>
+                            <input id="set-comp-insta" type="text"
+                                class="w-full border border-stone-sand rounded-lg px-4 py-3 focus:ring-primary" />
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            class="block text-xs font-bold uppercase tracking-widest text-stone-graphite/40 mb-2">Часы
+                            работы</label>
+                        <input id="set-comp-hours" type="text"
+                            class="w-full border border-stone-sand rounded-lg px-4 py-3 focus:ring-primary" />
+                    </div>
+                    <button onclick="saveSettings()"
+                        class="w-full bg-primary text-white py-4 rounded-lg font-bold uppercase tracking-widest">Сохранить
+                        всё</button>
+
+                    <div class="border-t border-stone-sand/20 pt-6">
+                        <label
+                            class="block text-xs font-bold uppercase tracking-widest text-stone-graphite/40 mb-2">Новый
+                            пароль</label>
+                        <div class="flex gap-2">
+                            <input id="new-pass" type="password"
+                                class="flex-1 border border-stone-sand rounded-lg px-4 py-3 focus:ring-primary" />
+                            <button onclick="changePassword()"
+                                class="bg-stone-graphite text-white px-6 py-3 rounded-lg font-bold uppercase tracking-widest text-sm">Сменить</button>
+                        </div>
+                    </div>
+                    <button onclick="doLogout()"
+                        class="w-full text-red-500 font-bold uppercase tracking-widest text-xs border border-red-500/20 py-3 rounded-lg">Выйти
+                        из панели</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="product-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeProductModal()"></div>
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-lg bg-white rounded-2xl shadow-2xl p-8">
+            <h3 id="p-modal-title" class="text-xl font-bold mb-6">Товар</h3>
+            <input type="hidden" id="p-id">
+            <div class="space-y-4">
+                <input id="p-name" type="text" placeholder="Название (Акушинский песчаник)"
+                    class="w-full border border-stone-sand rounded-lg px-4 py-3" />
+                <input id="p-price" type="text" placeholder="Цена (от 1 450)"
+                    class="w-full border border-stone-sand rounded-lg px-4 py-3" />
+                <input id="p-color" type="text" placeholder="Цвет/Тэги (beige white)"
+                    class="w-full border border-stone-sand rounded-lg px-4 py-3 text-xs" />
+                <input id="p-size" type="text" placeholder="Размеры (300 x 600 x 20 мм)"
+                    class="w-full border border-stone-sand rounded-lg px-4 py-3 text-xs" />
+                <textarea id="p-desc" rows="3" placeholder="Описание"
+                    class="w-full border border-stone-sand rounded-lg px-4 py-3 text-xs"></textarea>
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-stone-graphite/40 mb-1">Главное фото
+                        (Обложка)</label>
+                    <div class="flex gap-2">
+                        <input id="p-img" type="text" placeholder="img/akusha.jpg"
+                            class="flex-1 border border-stone-sand rounded-lg px-4 py-2 text-xs" />
+                        <label
+                            class="bg-stone-sand text-stone-graphite px-4 py-2 rounded text-[10px] font-bold cursor-pointer hover:bg-stone-sand/80">
+                            ВЫБРАТЬ
+                            <input id="p-img-upload" type="file" accept="image/*" class="hidden"
+                                onchange="handleUpload('product', document.getElementById('p-id').value, this.files[0])" />
+                        </label>
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-4"><button onclick="saveProduct()"
+                        class="flex-1 bg-primary text-white py-3 rounded-lg font-bold">Сохранить</button><button
+                        onclick="closeProductModal()"
+                        class="flex-1 border border-stone-sand py-3 rounded-lg">Отмена</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeProjectModal()"></div>
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-lg bg-white rounded-2xl shadow-2xl p-8 max-h-[90vh] overflow-y-auto">
+            <h3 id="proj-modal-title" class="text-xl font-bold mb-6">Проект</h3>
+            <input type="hidden" id="proj-id">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-stone-graphite/40 mb-1">Название
+                        проекта</label>
+                    <input id="proj-name" type="text" placeholder="Элитный особняк, Московская обл."
+                        class="w-full border border-stone-sand rounded-lg px-4 py-3" />
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-stone-graphite/40 mb-1">Материал</label>
+                    <input id="proj-material" type="text" placeholder="Дагестанский известняк"
+                        class="w-full border border-stone-sand rounded-lg px-4 py-3" />
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-stone-graphite/40 mb-1">Вид работ</label>
+                    <input id="proj-works" type="text" placeholder="Облицовка фасада под ключ"
+                        class="w-full border border-stone-sand rounded-lg px-4 py-3" />
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-stone-graphite/40 mb-1">Категория</label>
+                    <select id="proj-category" class="w-full border border-stone-sand rounded-lg px-4 py-3">
+                        <option value="dom">Дома и особняки</option>
+                        <option value="zab">Заборы</option>
+                        <option value="bes">Беседки</option>
+                        <option value="bar">Барбекю</option>
+                        <option value="maf">МАФ</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-stone-graphite/40 mb-1">Главное фото
+                        (Обложка)</label>
+                    <div class="flex gap-2">
+                        <input id="proj-img" type="text" placeholder="img/project_1.png"
+                            class="flex-1 border border-stone-sand rounded-lg px-4 py-2 text-xs" />
+                        <label
+                            class="bg-stone-sand text-stone-graphite px-4 py-2 rounded text-[10px] font-bold cursor-pointer hover:bg-stone-sand/80">
+                            ВЫБРАТЬ
+                            <input id="proj-img-upload" type="file" accept="image/*" class="hidden"
+                                onchange="handleUpload('project', document.getElementById('proj-id').value, this.files[0])" />
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-stone-graphite/40 mb-1">Галерея проекта
+                        (Много фото)</label>
+                    <div class="space-y-2">
+                        <textarea id="proj-images" rows="3" placeholder="img/p1.jpg, img/p2.jpg..."
+                            class="w-full border border-stone-sand rounded-lg px-4 py-3 text-[10px] font-mono"></textarea>
+                        <label
+                            class="block w-full text-center bg-stone-graphite text-white py-3 rounded-lg font-bold text-[10px] cursor-pointer hover:bg-black transition-colors">
+                            ДОБАВИТЬ ФОТО В ГАЛЕРЕЮ (MULTIPLE)
+                            <input id="proj-gallery-upload" type="file" accept="image/*" multiple class="hidden"
+                                onchange="handleMultiUpload('project', document.getElementById('proj-id').value, this.files)" />
+                        </label>
+                    </div>
+                </div>
+                <div class="flex gap-2 pt-4">
+                    <button onclick="saveProject()"
+                        class="flex-1 bg-primary text-white py-3 rounded-lg font-bold">Сохранить</button>
+                    <button onclick="closeProjectModal()"
+                        class="flex-1 border border-stone-sand py-3 rounded-lg">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="workshop-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeWorkshopModal()"></div>
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-lg bg-white rounded-2xl shadow-2xl p-8">
+            <h3 class="text-xl font-bold mb-6">Фото в портфолио</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] uppercase font-bold text-stone-graphite/40 mb-1">Фото
+                        проекта</label>
+                    <div class="flex gap-2">
+                        <input id="ws-url" type="text" placeholder="img/portf (1).jpeg"
+                            class="flex-1 border border-stone-sand rounded-lg px-4 py-2 text-xs" />
+                        <label
+                            class="bg-stone-sand text-stone-graphite px-4 py-2 rounded text-[10px] font-bold cursor-pointer hover:bg-stone-sand/80">
+                            ВЫБРАТЬ
+                            <input id="ws-img-upload" type="file" accept="image/*" class="hidden"
+                                onchange="handleUpload('workshop', null, this.files[0])" />
+                        </label>
+                    </div>
+                </div>
+                <input id="ws-title" type="text" placeholder="Подпись"
+                    class="w-full border border-stone-sand rounded-lg px-4 py-3" />
+                <div class="flex gap-2"><button onclick="saveWorkshopItem()"
+                        class="flex-1 bg-primary text-white py-3 rounded-lg font-bold">Добавить</button><button
+                        onclick="closeWorkshopModal()"
+                        class="flex-1 border border-stone-sand py-3 rounded-lg">Отмена</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast"
+        class="fixed bottom-6 right-6 bg-stone-graphite text-white px-6 py-4 rounded-xl shadow-2xl transition-all duration-300 opacity-0 translate-y-20 z-[300]">
+        Сохранено!</div>
+
+    <script>
+        // --- DATA HELPERS ---
+        const get = (k, d) => {
+            const stored = localStorage.getItem(k);
+            return stored ? JSON.parse(stored) : d;
+        };
+        const set = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+
+        let orders = get('dk_orders', []);
+        const defaultProducts = [
+            { id: 1, name: 'Акушинский песчаник', price: '1 450', desc: 'Известен своей прочностью и теплым золотистым оттенком. Идеален для облицовки фасадов и создания декоративных элементов.', img: 'img/akusha.jpg', color: 'beige white', hit: true, sizes: '300 x 600 x 20 мм', work: 'Пиленая' },
+            { id: 2, name: 'Мекегинский доломит', price: '1 890', desc: 'Добывается в окрестностях села Мекеги. Обладает уникальной рваной текстурой и высокой плотностью.', img: 'img/mekega.jpg', color: 'yellow', hit: false, sizes: '300 x 600 x 20 мм', work: 'Пиленая+дикушка' },
+            { id: 3, name: 'Чиринский камень', price: '1 200', desc: 'Отличается мелкозернистой структурой и спокойным светлым тоном. Создает ощущение чистоты и легкости.', img: 'img/chira.jpg', color: 'white', hit: false, sizes: '300 x 600 x 20 мм', work: 'Пиленая' },
+            { id: 4, name: 'Фригский ракушечник', price: '950', desc: 'Легкий и пористый материал с богатой текстурой, содержащей отпечатки древних ракушек.', img: 'img/friga.jpg', color: 'grey', hit: false, sizes: '300 x 600 x 20 мм', work: 'Пиленая' },
+            { id: 5, name: 'Дербентский ракушечник', price: '950', desc: 'Исторический камень, из которого построена знаменитая крепость Нарын-Кала.', img: 'img/derbent.jpg', color: 'beige', hit: false, sizes: '300 x 600 x 20 мм', work: 'Пиленая' },
+            { id: 6, name: 'Рукельский ракушечник', price: '950', desc: 'Благородный коричневатый оттенок делает его уникальным выбором для статусных особняков.', img: 'img/rukel.jpg', color: 'yellow', hit: false, sizes: '300 x 600 x 20 мм', work: 'Пиленая' },
+            { id: 7, name: 'Гелимбатанский ракушечник', price: '950', desc: 'Крапчатый рисунок этого камня скрывает мелкие загрязнения, делая фасад практичным.', img: 'img/gelim.jpg', color: 'yellow', hit: false, sizes: '300 x 600 x 20 мм', work: 'Пиленая' },
+            { id: 8, name: 'Каякентский ракушечник', price: '950', desc: 'Самый светлый из ракушечников, часто используется для резных наличников и карнизов.', img: 'img/kayakent.jpg', color: 'beige grey', hit: false, sizes: '300 x 600 x 20 мм', work: 'Пиленая' },
+            { id: 9, name: 'Морской ракушечник', price: '950', desc: 'Уникальный камень с очень крупными фрагментами морской фауны. Каждая плитка — это произведение искусства.', img: 'img/morskoy.jpg', color: 'grey', hit: false, sizes: '300 x 600 x 20 мм', work: 'Пиленая' },
+            { id: 10, name: 'Крапинка', price: '950', desc: 'Свое название получил за характерные мелкие вкрапления темного цвета на белоснежном фоне.', img: 'img/krapinka.png', color: 'white', hit: false, sizes: '300 x 600 x 20 мм', work: 'Пиленая' }
+        ];
+        let products = get('dk_products', defaultProducts);
+
+        const defaultProjects = [
+            { id: 1, name: 'Элитный особняк, Московская обл.', material: 'Дагестанский известняк и доломит', category: 'dom', img: 'img/project_1.png', works: 'Полная облицовка фасада, карнизы, балюстрады', images: 'img/project_1.png,img/project_2.png,img/project_3.png,img/project_4.png,img/project_5.jpg' },
+            { id: 2, name: 'Классический особняк и забор', material: 'Акушинский песчаник', category: 'dom', img: 'img/classic_1.jpg', works: 'Облицовка фасада и возведение забора под ключ', images: 'img/classic_1.jpg,img/classic_2.jpg,img/classic_3.jpg,img/classic_4.jpg,img/classic_5.jpg' },
+            { id: 3, name: 'Дворцовый стиль, Чеченская Респ.', material: 'Песчаник и мраморизованный известняк', category: 'dom', img: 'img/palace_1.jpg', works: 'Фасад, купола и заборная линия', images: 'img/palace_1.jpg,img/palace_2.jpg,img/palace_3.jpeg,img/palace_4.jpeg,img/palace_5.jpg,img/palace_6.jpg' },
+            { id: 4, name: 'Усадьба в пригороде, Краснодар', material: 'Чиринский известняк (песочный)', category: 'dom', img: 'img/house_b_3 (1).png', works: 'Фасад, парадная лестница и балкон', images: 'img/house_b_3 (1).png,img/house_b_3 (2).png,img/house_b_3 (3).png' },
+            { id: 5, name: 'Особняк в классическом стиле, СПб', material: 'Светлый известняк и песчаник', category: 'dom', img: 'img/mansion_2_1.png', works: 'Фасад под ключ, колонны, порталы', images: 'img/mansion_2_1.png,img/mansion_2_2.jpg,img/mansion_2_3.jpg' }
+        ];
+        let projects = get('dk_projects', defaultProjects);
+        const defaultWorkshop = [];
+        for (let i = 1; i <= 24; i++) {
+            defaultWorkshop.push({ id: i, url: `img/portf (${i}).jpeg`, title: `Фото портфолио ${i}` });
+        }
+        let workshop = get('dk_workshop', defaultWorkshop);
+        // Force refresh if stored data is empty/wrongly typed
+        if (!Array.isArray(workshop) || workshop.length === 0) {
+            workshop = defaultWorkshop;
+            set('dk_workshop', workshop);
+        }
+        let settings = get('dk_settings', {
+            phone: '+7 (964) 000-86-88',
+            whatsapp: '79640008688',
+            email: 'shximai@gmail.com',
+            instagram: 'dagkam_77',
+            hours: '9:00 - 21:00',
+            heroTitle: 'Дагестанский камень напрямую с карьера — роскошь, созданная природой'
+        });
+
+        function updateStats() {
+            document.getElementById('stat-new-orders').innerText = orders.filter(o => o.status === 'new').length;
+            document.getElementById('stat-done-orders').innerText = orders.filter(o => o.status === 'done').length;
+            document.getElementById('stat-products').innerText = products.length;
+            document.getElementById('stat-projects').innerText = projects.length;
+            document.getElementById('orders-badge').innerText = orders.filter(o => o.status === 'new').length;
+
+            if (window.db) {
+                window.db.collection('system').doc('stats').get().then(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        const today = new Date().toISOString().split('T')[0];
+
+                        // Сегодня
+                        const visitsTodayEl = document.getElementById('stat-visits-today');
+                        if (visitsTodayEl) visitsTodayEl.innerText = data['v_' + today] || 0;
+
+                        // Последние 30 дней (подсчет)
+                        let monthTotal = 0;
+                        const now = new Date();
+                        for (let i = 0; i < 30; i++) {
+                            const d = new Date();
+                            d.setDate(now.getDate() - i);
+                            const key = 'v_' + d.toISOString().split('T')[0];
+                            monthTotal += (data[key] || 0);
+                        }
+                        const visitsMonthEl = document.getElementById('stat-visits-month');
+                        if (visitsMonthEl) visitsMonthEl.innerText = monthTotal;
+                    }
+                }).catch(() => { });
+            }
+        }
+
+        function renderOrders() {
+            const list = orders.slice().reverse();
+
+            const dashboardBody = document.getElementById('dashboard-orders');
+            if (dashboardBody) {
+                dashboardBody.innerHTML = list.slice(0, 5).map(o => `
+                    <tr class="border-b border-stone-sand/10">
+                        <td class="px-6 py-4 font-bold text-sm">${o.name}</td>
+                        <td class="px-6 py-4 text-sm">${o.phone}</td>
+                        <td class="px-6 py-4 text-[10px] text-stone-graphite/40">${o.date}</td>
+                    </tr>`).join('');
+            }
+
+            const ordersTable = document.getElementById('orders-table');
+            if (ordersTable) {
+                ordersTable.innerHTML = list.map(o => `
+                    <tr class="border-b border-stone-sand/10 hover:bg-stone-sand/5">
+                        <td class="px-6 py-4"><p class="font-bold text-sm">${o.name}</p></td>
+                        <td class="px-6 py-4 text-sm whitespace-nowrap">${o.phone}</td>
+                        <td class="px-6 py-4 text-xs text-stone-graphite/60 min-w-[200px]">${o.message}</td>
+                        <td class="px-6 py-4 text-[10px] whitespace-nowrap">${o.date}</td>
+                        <td class="px-6 py-4">
+                            <select onchange="updateStatus(${o.id}, this.value)" class="text-[10px] border border-stone-sand/30 bg-white rounded-md py-1 px-2 focus:ring-1 focus:ring-primary outline-none">
+                                <option value="new" ${o.status === 'new' ? 'selected' : ''}>Новая</option>
+                                <option value="done" ${o.status === 'done' ? 'selected' : ''}>Завершена</option>
+                            </select>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick="delOrder(${o.id})" class="inline-flex items-center justify-center w-8 h-8 rounded-full text-red-400 hover:bg-red-50 hover:text-red-600 transition-colors">
+                                <span class="material-symbols-outlined text-lg">delete</span>
+                            </button>
+                        </td>
+                    </tr>`).join('');
+            }
+
+            // Update badge in sidebar
+            const badge = document.getElementById('orders-badge');
+            if (badge) {
+                badge.innerText = orders.filter(o => o.status === 'new').length;
+            }
+        }
+
+        // --- CATALOG ---
+        function renderCatalog() {
+            document.getElementById('catalog-grid').innerHTML = products.map(p => `
+                <div class="bg-white rounded-xl border border-stone-sand/30 overflow-hidden shadow-sm flex flex-col">
+                    <img src="${p.img || 'img/akusha.jpg'}" class="h-48 w-full object-cover">
+                    <div class="p-6 flex-grow">
+                        <h4 class="font-bold text-lg mb-1">${p.name}</h4>
+                        <p class="text-primary font-black mb-3">${p.price} ₽/м²</p>
+                        <p class="text-sm text-stone-graphite/50 line-clamp-2">${p.desc}</p>
+                    </div>
+                    <div class="p-4 bg-stone-sand/5 flex gap-2">
+                        <button onclick="editProduct(${p.id})" class="flex-1 bg-stone-sand/20 py-2 rounded text-xs font-bold uppercase">Редактировать</button>
+                        <button onclick="delProduct(${p.id})" class="text-red-400 p-2"><span class="material-symbols-outlined">delete</span></button>
+                    </div>
+                </div>`).join('');
+        }
+
+        function editProduct(id) {
+            const p = products.find(x => x.id === id);
+            document.getElementById('p-id').value = id;
+            document.getElementById('p-name').value = p.name;
+            document.getElementById('p-price').value = p.price;
+            document.getElementById('p-desc').value = p.desc;
+            document.getElementById('p-color').value = p.color || '';
+            document.getElementById('p-size').value = p.sizes || p.size || '';
+            document.getElementById('p-img').value = p.img || '';
+            document.getElementById('p-modal-title').innerText = 'Редактировать товар';
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function openProductModal() {
+            document.getElementById('p-id').value = '';
+            document.getElementById('p-name').value = '';
+            document.getElementById('p-price').value = '';
+            document.getElementById('p-desc').value = '';
+            document.getElementById('p-color').value = '';
+            document.getElementById('p-size').value = '';
+            document.getElementById('p-img').value = '';
+            document.getElementById('p-modal-title').innerText = 'Новый товар';
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function saveProduct() {
+            const id = document.getElementById('p-id').value;
+            const item = {
+                id: id ? parseInt(id) : Date.now(),
+                name: document.getElementById('p-name').value,
+                price: document.getElementById('p-price').value,
+                desc: document.getElementById('p-desc').value,
+                color: document.getElementById('p-color').value,
+                sizes: document.getElementById('p-size').value,
+                img: document.getElementById('p-img').value
+            };
+            if (id) {
+                const idx = products.findIndex(x => x.id == id);
+                products[idx] = item;
+            } else products.push(item);
+            set('dk_products', products);
+
+            // Firebase Sync
+            if (window.db) {
+                db.collection("products").doc(String(item.id)).set(item)
+                    .then(() => console.log("Product synced to Firebase"))
+                    .catch(e => console.error("Firebase Sync Error:", e));
+            }
+
+            renderCatalog();
+            closeProductModal();
+            updateStats();
+            toast('Товар сохранен');
+        }
+
+        // --- SETTINGS ---
+        function saveSettings() {
+            settings = {
+                phone: document.getElementById('set-comp-phone').value,
+                whatsapp: document.getElementById('set-comp-whatsapp').value,
+                email: document.getElementById('set-comp-email').value,
+                instagram: document.getElementById('set-comp-insta').value,
+                hours: document.getElementById('set-comp-hours').value,
+                heroTitle: document.getElementById('set-hero-title').value
+            };
+            set('dk_settings', settings);
+
+            // Firebase Sync
+            if (window.db) {
+                db.collection("system").doc("settings").set(settings)
+                    .then(() => {
+                        console.log("Settings synced to Firebase");
+                        toast('Настройки сохранены (Firebase)');
+                    })
+                    .catch(e => {
+                        console.error("Firebase Sync Error:", e);
+                        toast('Ошибка Firebase: ' + (e.message || e));
+                    });
+            } else {
+                toast('Firebase не подключен. Локальное сохранение.');
+            }
+        }
+
+        // --- PORTFOLIO ---
+        function renderWorkshop() {
+            document.getElementById('workshop-grid').innerHTML = workshop.map(w => `
+                <div class="bg-white rounded-xl border border-stone-sand/30 overflow-hidden shadow-sm relative group">
+                    <img src="${w.url}" class="h-40 w-full object-cover">
+                    <div class="p-3 text-xs font-bold truncate">${w.title || 'Фото'}</div>
+                    <button onclick="delWorkshop(${w.id})" class="absolute top-2 right-2 bg-red-400 text-white p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-sm">delete</span></button>
+                </div>`).join('');
+        }
+        function saveWorkshopItem() {
+            workshop.push({ id: Date.now(), url: document.getElementById('ws-url').value, title: document.getElementById('ws-title').value });
+            set('dk_workshop', workshop);
+            renderWorkshop();
+            closeWorkshopModal();
+            toast('Фото добавлено');
+        }
+
+        // --- GALLERY ---
+        function renderGallery() {
+            document.getElementById('gallery-grid').innerHTML = projects.map(p => `
+                <div class="bg-white rounded-xl border border-stone-sand/30 overflow-hidden shadow-sm flex flex-col group">
+                    <div class="relative h-40 overflow-hidden">
+                        <img src="${p.img || 'img/project_1.png'}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-2 left-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm">
+                            ${p.category === 'dom' ? 'Дома' : p.category === 'zab' ? 'Забор' : p.category === 'bes' ? 'Беседка' : 'МАФ'}
+                        </div>
+                    </div>
+                    <div class="p-4 flex-grow">
+                        <h4 class="font-bold text-sm leading-tight mb-1 line-clamp-2">${p.name}</h4>
+                        <p class="text-[10px] text-stone-graphite/40 uppercase tracking-tighter">${p.material}</p>
+                    </div>
+                    <div class="p-3 bg-stone-sand/5 flex gap-2">
+                        <button onclick="editProject(${p.id})" class="flex-1 bg-stone-sand/20 py-2 rounded text-[10px] font-bold uppercase hover:bg-stone-sand/40 transition-colors">Изменить</button>
+                        <button onclick="delProject(${p.id})" class="text-red-400 p-2 hover:bg-red-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+                    </div>
+                </div>`).join('');
+        }
+
+        function editProject(id) {
+            const p = projects.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('proj-id').value = id;
+            document.getElementById('proj-name').value = p.name || '';
+            document.getElementById('proj-material').value = p.material || '';
+            document.getElementById('proj-works').value = p.works || '';
+            document.getElementById('proj-category').value = p.category || 'dom';
+            document.getElementById('proj-img').value = p.img || '';
+            document.getElementById('proj-images').value = p.images || p.img || '';
+            document.getElementById('proj-modal-title').innerText = 'Редактировать проект';
+            document.getElementById('project-modal').classList.remove('hidden');
+        }
+
+        function openProjectModal() {
+            document.getElementById('proj-id').value = '';
+            document.getElementById('proj-name').value = '';
+            document.getElementById('proj-material').value = '';
+            document.getElementById('proj-works').value = '';
+            document.getElementById('proj-category').value = 'dom';
+            document.getElementById('proj-img').value = '';
+            document.getElementById('proj-images').value = '';
+            document.getElementById('proj-modal-title').innerText = 'Новый проект';
+            document.getElementById('project-modal').classList.remove('hidden');
+        }
+
+        function saveProject() {
+            const id = document.getElementById('proj-id').value;
+            const item = {
+                id: id ? parseInt(id) : Date.now(),
+                name: document.getElementById('proj-name').value,
+                material: document.getElementById('proj-material').value,
+                works: document.getElementById('proj-works').value,
+                category: document.getElementById('proj-category').value,
+                img: document.getElementById('proj-img').value,
+                images: document.getElementById('proj-images').value
+            };
+
+            if (id) {
+                const idx = projects.findIndex(x => x.id == id);
+                if (idx !== -1) projects[idx] = item;
+            } else {
+                projects.push(item);
+            }
+
+            set('dk_projects', projects);
+
+            // Firebase Sync
+            if (window.db) {
+                db.collection("projects").doc(String(item.id)).set(item)
+                    .then(() => console.log("Project synced to Firebase"))
+                    .catch(e => console.error("Firebase Sync Error:", e));
+            }
+
+            renderGallery();
+            closeProjectModal();
+            updateStats();
+            toast(id ? 'Проект обновлен' : 'Проект добавлен');
+        }
+
+        // --- GENERAL ---
+        function showTab(t) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            document.getElementById('tab-' + t).classList.add('active');
+            document.querySelector(`[data-tab="${t}"]`).classList.add('active');
+            document.getElementById('page-title').innerText = t[0].toUpperCase() + t.slice(1);
+            
+            // Auto close sidebar on mobile card clicks
+            if (window.innerWidth < 1024) {
+                toggleSidebar();
+            }
+        }
+
+        function toast(m) {
+            const t = document.getElementById('toast'); t.innerText = m;
+            t.classList.remove('opacity-0', 'translate-y-20');
+            setTimeout(() => t.classList.add('opacity-0', 'translate-y-20'), 2000);
+        }
+
+        function doLogin() {
+            const p = document.getElementById('login-pass').value;
+            if (p === (localStorage.getItem('dk_pass') || 'admin')) {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('admin-app').classList.remove('hidden');
+                localStorage.setItem('dk_auth', '1');
+            } else document.getElementById('login-error').classList.remove('hidden');
+        }
+        function doLogout() { localStorage.removeItem('dk_auth'); location.reload(); }
+        function changePassword() { const np = document.getElementById('new-pass').value; if (np) { localStorage.setItem('dk_pass', np); toast('Пароль изменен'); } }
+
+        function toggleSidebar() {
+            document.getElementById('admin-sidebar').classList.toggle('open');
+            document.getElementById('sidebar-overlay').classList.toggle('open');
+        }
+
+        function updateStatus(id, s) { const o = orders.find(x => x.id === id); o.status = s; set('dk_orders', orders); updateStats(); toast('Статус обновлен'); }
+        function delOrder(id) { if (confirm('Удалить?')) { orders = orders.filter(x => x.id !== id); set('dk_orders', orders); renderOrders(); updateStats(); } }
+        function delProduct(id) { if (confirm('Удалить?')) { products = products.filter(x => x.id !== id); set('dk_products', products); renderCatalog(); updateStats(); } }
+        function delProject(id) { if (confirm('Удалить?')) { projects = projects.filter(x => x.id !== id); set('dk_projects', projects); renderGallery(); updateStats(); } }
+        function delWorkshop(id) { if (confirm('Удалить?')) { workshop = workshop.filter(x => x.id !== id); set('dk_workshop', workshop); renderWorkshop(); } }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+            ['p-id', 'p-name', 'p-price', 'p-color', 'p-desc', 'p-img'].forEach(f => { const el = document.getElementById(f); if (el) el.value = ''; });
+        }
+        function closeProjectModal() { document.getElementById('project-modal').classList.add('hidden'); }
+        function openWorkshopModal() { document.getElementById('workshop-modal').classList.remove('hidden'); }
+        function closeWorkshopModal() { document.getElementById('workshop-modal').classList.add('hidden'); }
+
+        async function handleUpload(type, id, file) {
+            if (!file) {
+                toast('Файл не выбран');
+                return;
+            }
+
+            try {
+                toast('Загрузка файла...');
+                const ext = file.name.split('.').pop();
+                const docId = id ? id : Date.now();
+                const storagePath = `${type}s/${docId}.${ext}`;
+
+                const downloadURL = await uploadFile(file, storagePath);
+                console.log('File uploaded, URL:', downloadURL);
+
+                const collection = type === 'product' ? 'products' : type === 'project' ? 'projects' : 'workshop';
+                const docRef = db.collection(collection).doc(String(docId));
+
+                const updateData = type === 'workshop' ? { url: downloadURL } : { img: downloadURL };
+
+                if (type === 'workshop') {
+                    updateData.title = document.getElementById('ws-title').value || 'Фото';
+                    updateData.id = docId;
+                }
+
+                await docRef.set(updateData, { merge: true });
+
+                if (type === 'product') {
+                    const idx = products.findIndex(p => p.id == docId);
+                    if (idx !== -1) products[idx].img = downloadURL;
+                    else {
+                        const item = {
+                            id: docId,
+                            name: document.getElementById('p-name').value,
+                            price: document.getElementById('p-price').value,
+                            desc: document.getElementById('p-desc').value,
+                            color: document.getElementById('p-color').value,
+                            sizes: document.getElementById('p-size').value,
+                            img: downloadURL
+                        };
+                        products.push(item);
+                        await docRef.set(item, { merge: true });
+                    }
+                    set('dk_products', products);
+                    renderCatalog();
+                    closeProductModal();
+                } else if (type === 'project') {
+                    const idx = projects.findIndex(p => p.id == docId);
+                    if (idx !== -1) projects[idx].img = downloadURL;
+                    else {
+                        const item = {
+                            id: docId,
+                            name: document.getElementById('proj-name').value,
+                            material: document.getElementById('proj-material').value,
+                            works: document.getElementById('proj-works').value,
+                            category: document.getElementById('proj-category').value,
+                            img: downloadURL,
+                            images: document.getElementById('proj-images').value || downloadURL
+                        };
+                        projects.push(item);
+                        await docRef.set(item, { merge: true });
+                    }
+                    set('dk_projects', projects);
+                    renderGallery();
+                    closeProjectModal();
+                } else {
+                    const idx = workshop.findIndex(w => w.id == docId);
+                    if (idx !== -1) workshop[idx].url = downloadURL;
+                    else workshop.push({ id: docId, url: downloadURL, title: updateData.title });
+                    set('dk_workshop', workshop);
+                    renderWorkshop();
+                    closeWorkshopModal();
+                }
+
+                toast('Успешно загружено!');
+                updateStats();
+            } catch (e) {
+                console.error('Upload error:', e);
+                toast('Ошибка загрузки: ' + (e.message || e));
+            }
+        }
+
+        async function handleMultiUpload(type, id, files) {
+            if (!files || files.length === 0) return;
+
+            toast(`Загрузка ${files.length} фото...`);
+            const urls = [];
+
+            for (let i = 0; i < files.length; i++) {
+                try {
+                    const url = await uploadFile(files[i]);
+                    urls.push(url);
+                    toast(`Загружено ${i + 1} из ${files.length}`);
+                } catch (e) {
+                    console.error('Multi-upload error for file', i, e);
+                }
+            }
+
+            if (urls.length > 0) {
+                const area = document.getElementById('proj-images');
+                const currentVal = area.value.trim();
+                const newVal = currentVal ? (currentVal + ',' + urls.join(',')) : urls.join(',');
+                area.value = newVal;
+                toast('Галерея дополнена!');
+            }
+        }
+
+        // --- INIT ---
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('ru-RU');
+        if (localStorage.getItem('dk_auth') === '1') { document.getElementById('login-screen').classList.add('hidden'); document.getElementById('admin-app').classList.remove('hidden'); }
+
+        // Load Settings to UI
+        if (!settings) settings = {};
+        const safeSet = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; }
+        safeSet('set-comp-phone', settings.phone);
+        safeSet('set-comp-whatsapp', settings.whatsapp);
+        safeSet('set-comp-email', settings.email);
+        safeSet('set-comp-insta', settings.instagram);
+        safeSet('set-comp-hours', settings.hours);
+        safeSet('set-hero-title', settings.heroTitle);
+
+        renderOrders();
+        renderCatalog();
+        renderWorkshop();
+        renderGallery();
+        updateStats();
+    </script>
+</body>
+
+</html>

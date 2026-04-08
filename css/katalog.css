@@ -1,0 +1,4 @@
+.filter-checkbox:checked + label {
+    color: #b85814;
+    font-weight: 600;
+}
