@@ -267,29 +267,44 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const menuIcon = menuBtn.querySelector('.material-icons');
 
+        const openMenu = () => {
+            isMenuOpen = true;
+            mobileMenu.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-100%]');
+            mobileMenu.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+            if (menuIcon) menuIcon.textContent = 'close';
+            menuBtn.setAttribute('aria-expanded', 'true');
+            menuBtn.setAttribute('aria-label', 'Закрыть меню');
+            menuBtn.classList.add('text-white');
+            menuBtn.style.zIndex = '120';
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeMenu = () => {
+            isMenuOpen = false;
+            mobileMenu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-100%]');
+            mobileMenu.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+            if (menuIcon) menuIcon.textContent = 'menu';
+            menuBtn.setAttribute('aria-expanded', 'false');
+            menuBtn.setAttribute('aria-label', 'Открыть меню');
+            menuBtn.style.zIndex = '';
+            document.body.style.overflow = '';
+            updateHeader();
+        };
+
         menuBtn.addEventListener('click', () => {
-
-            isMenuOpen = !isMenuOpen;
-
             if (isMenuOpen) {
-
-                mobileMenu.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-100%]');
-
-                mobileMenu.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
-
-                if (menuIcon) menuIcon.textContent = 'close';
-
-                document.body.style.overflow = 'hidden';
-
+                closeMenu();
             } else {
-
-                mobileMenu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-100%]');
-
-                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
-
-                if (menuIcon) menuIcon.textContent = 'menu';
-                document.body.style.overflow = '';
+                openMenu();
             }
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && isMenuOpen) closeMenu();
         });
     }
 

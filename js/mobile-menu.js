@@ -17,6 +17,10 @@
     const btn = document.createElement('button');
     btn.id = 'mobile-menu-btn';
     btn.className = 'md:hidden text-stone-graphite p-2 flex items-center';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Открыть меню');
+    btn.setAttribute('aria-controls', 'mobile-menu');
+    btn.setAttribute('aria-expanded', 'false');
     btn.innerHTML = '<span class="material-icons text-3xl">menu</span>';
     rightDiv.appendChild(btn);
 
@@ -48,35 +52,51 @@
     let isOpen = false;
     const menuIcon = btn.querySelector('.material-icons');
 
+    const openMenu = () => {
+        isOpen = true;
+        menu.style.transform = 'translateY(0)';
+        menu.classList.remove('opacity-0', 'pointer-events-none');
+        menu.classList.add('opacity-100', 'pointer-events-auto');
+        if (menuIcon) menuIcon.textContent = 'close';
+        btn.setAttribute('aria-expanded', 'true');
+        btn.setAttribute('aria-label', 'Закрыть меню');
+        document.body.style.overflow = 'hidden';
+        btn.style.zIndex = '200';
+        btn.classList.add('text-white');
+        btn.classList.remove('text-stone-graphite');
+    };
+
+    const closeMenu = () => {
+        isOpen = false;
+        menu.style.transform = 'translateY(-100%)';
+        menu.classList.add('opacity-0', 'pointer-events-none');
+        menu.classList.remove('opacity-100', 'pointer-events-auto');
+        if (menuIcon) menuIcon.textContent = 'menu';
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Открыть меню');
+        document.body.style.overflow = '';
+        btn.style.zIndex = '';
+        btn.classList.remove('text-white');
+        btn.classList.add('text-stone-graphite');
+    };
+
     btn.addEventListener('click', () => {
-        isOpen = !isOpen;
         if (isOpen) {
-            menu.style.transform = 'translateY(0)';
-            menu.classList.remove('opacity-0', 'pointer-events-none');
-            menu.classList.add('opacity-100', 'pointer-events-auto');
-            if (menuIcon) menuIcon.textContent = 'close';
-            document.body.style.overflow = 'hidden';
-            // Raise the button above the overlay
-            btn.style.zIndex = '200';
-            btn.classList.add('text-white');
-            btn.classList.remove('text-stone-graphite');
+            closeMenu();
         } else {
-            menu.style.transform = 'translateY(-100%)';
-            menu.classList.add('opacity-0', 'pointer-events-none');
-            menu.classList.remove('opacity-100', 'pointer-events-auto');
-            if (menuIcon) menuIcon.textContent = 'menu';
-            document.body.style.overflow = '';
-            btn.style.zIndex = '';
-            btn.classList.remove('text-white');
-            btn.classList.add('text-stone-graphite');
+            openMenu();
         }
     });
 
     // Close menu when clicking a link
     menu.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
-            if (isOpen) btn.click();
+            if (isOpen) closeMenu();
         });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && isOpen) closeMenu();
     });
 
     // Sync phone from settings
